@@ -1,3 +1,4 @@
+<p align="center"><h2><u>Personal Blog using Laravel and Bootstrap</u></h2> </p>
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">

@@ -41,7 +41,6 @@ class BlogController extends Controller
         $post->title       = $post_data['title'];
         $post->description = $post_data['description'];
         $post->category_id = $post_data['category_id'];
-        $post->file        = $post_data['file'];
     }
 
     public function show($id)
@@ -55,14 +54,9 @@ class BlogController extends Controller
         return view('front::blog.single_blog_post', compact('post','categories','related'));
     }
 
-    public function download($id)
+    public function edit($id)
     {
-
-        $BlogFile = BlogPost::find($id);
-        $file_name = $BlogFile->url;
-        $url    = "uploads/url/blog-post/".$file_name;
-        $download_link = public_path($url);
-        return response()->download($download_link);
+        //
     }
 
     public function update(Request $request, $id)

@@ -19,15 +19,7 @@
                                 <ul class="post-meta">
                                     <li><i class="fa fa-folder-open">{{$post->blogCategory->title}}</i></li>
                                 </ul>
-                                <p>
-                                    <?php
-
-                                    $data = preg_replace("/<img[^>]+\>/i", " ", $post->description);
-
-                                    echo str_limit($data, $limit = 150, $end = '...');
-
-                                    ?>
-                                </p>
+                                <p> <?php echo substr($post->description,0,800) ?></p>
                                 <a href="{{url('blog/'.$post->id.'/show')}}" class="btn btn-small btn-dark-solid  "> Continue Reading</a>
                             </div>
                         </div>

@@ -18,9 +18,6 @@
                             </ul>
 
                             <p> <?php echo $post->description ?></p>
-                            <div class="m-bot-10">
-                                <a href="{{ url('blog/'.$post->id.'/download') }}" class="btn btn-small  btn-theme-color " >Download</a>
-                            </div>
 
                             <div class="clearfix inline-block m-top-50 m-bot-50">
                                 <h6 class="text-uppercase">Share this Post </h6>

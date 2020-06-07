@@ -19,7 +19,7 @@ class CreateResearchPostsTable extends Migration
             $table->longText('description');
             $table->integer('category_id')->unsigned();
             $table->integer('count')->default(1);
-            $table->string('url')->nullable();
+            $table->string('file');
             $table->integer('created_by')->unsigned();
             $table->integer('updated_by')->unsigned();
             $table->timestamps();

@@ -39,42 +39,44 @@ class BlogController extends Controller
         ]);
 
         $post_data = $request->all();
-        $post = new BlogPost;
 
-        if ($request->hasFile('url'))
+        if ($request->hasFile('file'))
         {
-            $file   = $request->file('url');
+            $file   = $request->file('file');
             $prefix = 'blog_post';
-            $path   = 'uploads\url\blog-post';
+            $path   = 'uploads\file\blog-post';
 
             $file_upload = new FileUpload();
             $upload = $file_upload->upload($file, $prefix, $path);
 
             if ($upload['status'] == true)
             {
-                $url_name = $upload['file_name'];
-
-                $post->url        = $url_name;
+                $file_name = $upload['file_name'];
+            }
+            else
+            {
+                return redirect()
+                    ->route('admin_blog_create')
+                    ->with('notification.status', 'danger')
+                    ->with('notification.message', 'Sorry! Cannot add blog post.');
             }
 
-        }
-
-
+            $post = new BlogPost;
             $post->title       = $post_data['title'];
             $post->description = $post_data['description'];
             $post->category_id = $post_data['category_id'];
+            $post->file        = $post_data['file'];
             $post->created_by  = $user_id;
             $post->updated_by  = $user_id;
 
+            if ($post->save())
+            {
+                return redirect()
+                    ->route('admin_blog_create')
+                    ->with('notification.status', 'success')
+                    ->with('notification.message', 'Blog Post Added Successfully!  Want to create more?');
+            }
 
-
-
-        if ($post->save())
-        {
-            return redirect()
-                ->route('admin_blog_create')
-                ->with('notification.status', 'success')
-                ->with('notification.message', 'Blog Post Added Successfully!  Want to create more?');
         }
         else
         {
@@ -83,6 +85,7 @@ class BlogController extends Controller
                 ->with('notification.status', 'danger')
                 ->with('notification.message', 'Sorry! Cannot add blog post.');
         }
+
     }
 
     public function show($id)
@@ -123,42 +126,49 @@ class BlogController extends Controller
 
         $post = BlogPost::find($id);
 
-        if ($request->hasFile('url'))
+        if ($request->hasFile('file'))
         {
 
 
-            $file = $post->url;
+            $file = $post->file;
 
             if($file)
             {
-                $path   = "uploads/url/blog-post/";
+                $path   = "uploads/file/blog-post/";
                 $file_remove = new FileUpload();
                 if($file_remove->remove($file, $path))
                 {
-                    $file   = $request->file('url');
+                    $file   = $request->file('file');
                     $prefix = 'blog_post';
-                    $path   = 'uploads\url\blog-post';
+                    $path   = 'uploads\file\blog-post';
 
                     $file_upload = new FileUpload();
                     $upload = $file_upload->upload($file, $prefix, $path);
 
                     if ($upload['status'] == true)
                     {
-                        $url_name = $upload['file_name'];
+                        $file_name = $upload['file_name'];
                     }
-
+                    else
+                    {
+                        return redirect()
+                            ->route('admin_blog_create')
+                            ->with('notification.status', 'danger')
+                            ->with('notification.message', 'Sorry! Cannot add blog post.');
+                    }
                 }
 
             }
 
         }else{
-            $url_name = $post->url;
+            $file_name = $post->file;
         }
+
 
         $post->title       = $post_data['title'];
         $post->description = $post_data['description'];
         $post->category_id = $post_data['category_id'];
-        $post->url        = $url_name;
+        $post->file        = $post_data['file'];
         $post->updated_by  = $user_id;
 
         if ($post->update()) {

@@ -69,12 +69,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 form-control-label  text-right" for="file">File Upload</label>
+                            <label class="col-md-2 form-control-label  text-right" for="file">File</label>
                             <div class="col-md-9">
-                                <input type="file" id="url" name="url">
+                                <input type="file" id="file" name="file">
                                 <br>
-                                @if($errors->first('url'))
-                                    <span class="help-block text-danger" style="margin-top: 5px;">{{ $errors->first('url') }}</span>
+                                @if($errors->first('file'))
+                                    <span class="help-block text-danger" style="margin-top: 5px;">{{ $errors->first('file') }}</span>
                                 @endif
                             </div>
                         </div>

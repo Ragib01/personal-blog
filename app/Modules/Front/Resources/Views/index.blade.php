@@ -121,9 +121,9 @@
                                 <p>My popular <b>blog posts</b> is here</p>
                             </div>
 
-                            <div id="g">
+                            <div id="clients-1">
                                 @foreach($posts as $post)
-                                <div class="item col-md-4">
+                                <div class="item">
                                     <div class="post-single">
                                         <div class="post-desk">
                                             <h4 class="text-uppercase">
@@ -133,13 +133,7 @@
                                                 {{$post->updated_at->format('d M Y')}}
                                             </div>
                                             <p>
-                                                <?php
-
-                                                $data = preg_replace("/<img[^>]+\>/i", " ", $post->description);
-
-                                                echo str_limit($data, $limit = 150, $end = '...');
-
-                                                ?>
+                                                <?php echo substr($post->description,0,500) ?>
                                             </p>
                                             <a href="{{url('blog/'.$post->id.'/show')}}" class="p-read-more">Read More <i class="icon-arrows_slim_right"></i></a>
                                         </div>
@@ -157,6 +151,60 @@
 
         </section>
 
+        <!--fun factor-->
+        <!-- <div class="dark-bg p-tb-100" style="background-color: #B71568;">
+            <div class="container">
+                <div class="row">
+                    <div class=" inline-block">
+                        <div class="col-md-3 ">
+                            <div class="fun-factor fun-icon-text-parallel alt">
+                                <div class="icon">
+                                    <i class="icon-layers light-txt"></i>
+                                    <h1 class="timer light-txt" data-from="0" data-to="4" data-speed="1000"> </h1>
+                                </div>
+                                <div class="fun-info light-txt">
+                                    <span>Categories</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fun-factor fun-icon-text-parallel alt">
+                                <div class="icon">
+                                    <i class="icon-computer_imac_slim light-txt"></i>
+                                    <h1 class="timer light-txt"><span> data-from="0" data-to="30" data-speed="1000" </span></h1>
+                                </div>
+                                <div class="fun-info light-txt">
+                                    <span>Posts</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fun-factor fun-icon-text-parallel alt">
+                                <div class="icon">
+                                    <i class="icon-database light-txt"></i>
+                                    <h1 class="timer light-txt" data-from="0" data-to="100" data-speed="1500"> </h1>
+                                </div>
+                                <div class="fun-info light-txt">
+                                    <span>Subscribers</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fun-factor fun-icon-text-parallel alt">
+                                <div class="icon">
+                                    <i class="icon-linegraph light-txt"></i>
+                                    <h1 class="timer light-txt" data-from="0" data-to="1700" data-speed="1500"> </h1>
+                                </div>
+                                <div class="fun-info light-txt">
+                                    <span>Facebook Likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!--fun factor-->
 
 
         <hr/>

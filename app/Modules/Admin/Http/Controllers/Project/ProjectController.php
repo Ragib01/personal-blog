@@ -39,38 +39,44 @@ class ProjectController extends Controller
         ]);
 
         $post_data = $request->all();
-        $post = new ProjectPost;
 
-        if ($request->hasFile('url'))
+        if ($request->hasFile('file'))
         {
-            $file = $request->file('url');
+            $file   = $request->file('file');
             $prefix = 'project_post';
-            $path = 'uploads\url\project-post';
+            $path   = 'uploads\file\project-post';
 
             $file_upload = new FileUpload();
             $upload = $file_upload->upload($file, $prefix, $path);
 
-            if ($upload['status'] == true) {
-                $url_name = $upload['file_name'];
-                $post->url = $url_name;
+            if ($upload['status'] == true)
+            {
+                $file_name = $upload['file_name'];
+            }
+            else
+            {
+                return redirect()
+                    ->route('admin_project_create')
+                    ->with('notification.status', 'danger')
+                    ->with('notification.message', 'Sorry! Cannot add project post.');
             }
 
-        }
-
-
+            $post = new ProjectPost;
             $post->title       = $post_data['title'];
             $post->description = $post_data['description'];
             $post->category_id = $post_data['category_id'];
-
+            $post->file        = $post_data['file'];
             $post->created_by  = $user_id;
             $post->updated_by  = $user_id;
 
-        if ($post->save())
-        {
-            return redirect()
-                ->route('admin_project_create')
-                ->with('notification.status', 'success')
-                ->with('notification.message', 'Project Post Added Successfully!  Want to create more?');
+            if ($post->save())
+            {
+                return redirect()
+                    ->route('admin_project_create')
+                    ->with('notification.status', 'success')
+                    ->with('notification.message', 'Project Post Added Successfully!  Want to create more?');
+            }
+
         }
         else
         {
@@ -79,6 +85,7 @@ class ProjectController extends Controller
                 ->with('notification.status', 'danger')
                 ->with('notification.message', 'Sorry! Cannot add project post.');
         }
+
     }
 
     public function show($id)
@@ -119,49 +126,56 @@ class ProjectController extends Controller
 
         $post = ProjectPost::find($id);
 
-        if ($request->hasFile('url'))
+        if ($request->hasFile('file'))
         {
 
 
-            $file = $post->url;
+            $file = $post->file;
 
             if($file)
             {
-                $path   = "uploads/url/project-post/";
+                $path   = "uploads/file/project-post/";
                 $file_remove = new FileUpload();
                 if($file_remove->remove($file, $path))
                 {
-                    $file   = $request->file('url');
+                    $file   = $request->file('file');
                     $prefix = 'project_post';
-                    $path   = 'uploads\url\project-post';
+                    $path   = 'uploads\file\project-post';
 
                     $file_upload = new FileUpload();
                     $upload = $file_upload->upload($file, $prefix, $path);
 
                     if ($upload['status'] == true)
                     {
-                        $url_name = $upload['file_name'];
+                        $file_name = $upload['file_name'];
                     }
-
+                    else
+                    {
+                        return redirect()
+                            ->route('admin_project_create')
+                            ->with('notification.status', 'danger')
+                            ->with('notification.message', 'Sorry! Cannot add project post.');
+                    }
                 }
 
             }
 
         }else{
-            $url_name = $post->url;
+            $file_name = $post->file;
         }
+
 
         $post->title       = $post_data['title'];
         $post->description = $post_data['description'];
         $post->category_id = $post_data['category_id'];
-        $post->url        = $url_name;
+        $post->file        = $post_data['file'];
         $post->updated_by  = $user_id;
 
         if ($post->update()) {
             return redirect()
                 ->route('admin_project_index', ['id' => $id])
                 ->with('notification.status', 'success')
-                ->with('notification.message', 'project post Updated Successfully!.Want to create more post?');
+                ->with('notification.message', 'Project post Updated Successfully!.Want to create more post?');
         }
         else {
             return redirect()
